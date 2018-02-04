@@ -1,0 +1,5 @@
+air asia : 100, 50
+garuda : 100, 50
+lion : 45, 33
+citilink : 100, 50
+adamair : 100, 34
