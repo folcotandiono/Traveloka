@@ -164,6 +164,8 @@
     var banyakOrangSelect = document.getElementById("banyakOrang");
     var banyakOrang = banyakOrangSelect.options[banyakOrangSelect.selectedIndex].value;
 
+    var hasil;
+
     $.ajax({
       type: "POST",
       url: "findticket.php",
@@ -173,9 +175,15 @@
         dateFlight : dateFlight,
         banyakOrang : banyakOrang
       },
+      dataType: 'json',
+      async: false,
       success: function(result){
-        
+        hasil = result;
+        window.open("findticket.html");
       }
     });
+
+    
+
   });
 </script>
