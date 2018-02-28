@@ -14,7 +14,7 @@ $array = array();
 $i = 0;
 
 while($result = sqlsrv_fetch_array($query, SQLSRV_FETCH_ASSOC)) {
-	$array[$i++] = $result;
+	$array[$i++] = ($result);
 }
 
 echo json_encode($array);

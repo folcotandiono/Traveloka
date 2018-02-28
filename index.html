@@ -14,11 +14,10 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <img src="gambar/traveloka.png" height="70" width="150">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="#">Promos</a>
@@ -125,7 +124,8 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -144,6 +144,7 @@
     toSelect.value = from;
   });
   document.getElementById("searchFlights").addEventListener("click", function(){
+    // console.log("haha");
     var fromSelect = document.getElementById("from");
     var from = fromSelect.options[fromSelect.selectedIndex].value;
 
@@ -159,6 +160,7 @@
 
     if (dateFlight == null || dateFlight == "") {
       toastr.warning('Tanggal penerbangan harap diisi..!!!');
+      return;
     }
 
     var banyakOrangSelect = document.getElementById("banyakOrang");
@@ -179,7 +181,10 @@
       async: false,
       success: function(result){
         hasil = result;
+        // console.log(hasil[0]["Nama_Maskapai"]);
+        localStorage.setItem("dataPenerbangan", JSON.stringify(hasil));
         window.open("findticket.html");
+        // window.open("http://www.stackoverflow.com");
       }
     });
 
