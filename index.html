@@ -183,6 +183,10 @@
         hasil = result;
         // console.log(hasil[0]["Nama_Maskapai"]);
         localStorage.setItem("dataPenerbangan", JSON.stringify(hasil));
+        localStorage.setItem("from", JSON.stringify(from));
+        localStorage.setItem("to", JSON.stringify(to));
+        localStorage.setItem("dateFlight", JSON.stringify(dateFlight));
+        localStorage.setItem("banyakOrang", JSON.stringify(banyakOrang));
         window.open("findticket.html");
         // window.open("http://www.stackoverflow.com");
       }
