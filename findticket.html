@@ -7,7 +7,9 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="tagsinput.css">
 
   <title>Hello, world!</title>
 </head>
@@ -37,7 +39,7 @@
         <p id="tujuan">haha</p>
       </div>
       <div class="row align-items-center">
-        <p id="hari">haha</p>
+        <p id="banyakHari">haha</p>
         <p style="margin-left:10px; margin-right:10px">|</p>
         <p id="banyakPenumpang">haha</p>
       </div>
@@ -52,38 +54,46 @@
       </div>
     </div>
     <div class="col-md-12" id="filterAirline" >
-
+      <input type="checkbox" id="filterAirlineCitilink" class="filter" value="Airline : Citilink"><img src='gambar/citilink.png' height='100' width='150'></img>Citilink<br>
+      <input type="checkbox" id="filterAirlineLionAir" class="filter" value="Airline : Lion Air"><img src='gambar/lionair.png' height='100' width='150'></img>Lion Air<br>
+      <input type="checkbox" id="filterAirlineAdamAir" class="filter" value="Airline : Adam Air"><img src='gambar/adamair.png' height='100' width='150'></img>Adam Air<br>
+      <input type="checkbox" id="filterAirlineAirAsia" class="filter" value="Airline : Air Asia"><img src='gambar/airasia.jpg' height='100' width='150'></img>Air Asia<br>
+      <input type="checkbox" id="filterAirlineGaruda" class="filter" value="Airline : Garuda"><img src='gambar/garuda.jpg' height='100' width='150'></img>Garuda
     </div>
     <div class="col-md-12" id="filterTime" >
       <div class="row">
         <div class="col-md-6">
           <p>Depart</p>
-          <input type="checkbox" name="depart00.00-06.00" value="Depart : 00.00 - 06.00"> 00.00 - 06.00<br>
-          <input type="checkbox" name="depart06.00-12.00" value="Depart : 06.00 - 12.00"> 06.00 - 12.00<br>
-          <input type="checkbox" name="depart12.00-18.00" value="Depart : 12.00 - 18.00"> 12.00 - 18.00<br>
-          <input type="checkbox" name="depart18.00-00.00" value="Depart : 18.00 - 00.00"> 18.00 - 00.00<br>
+          <input type="checkbox" id="filterDepart0" class="filter" value="Depart : 00.00 - 06.00"> 00.00 - 06.00<br>
+          <input type="checkbox" id="filterDepart1" class="filter" value="Depart : 06.00 - 12.00"> 06.00 - 12.00<br>
+          <input type="checkbox" id="filterDepart2" class="filter" value="Depart : 12.00 - 18.00"> 12.00 - 18.00<br>
+          <input type="checkbox" id="filterDepart3" class="filter" value="Depart : 18.00 - 00.00"> 18.00 - 00.00<br>
         </div>
         <div class="col-md-6">
           <p>Arrive</p>
-          <input type="checkbox" name="arrive00.00-06.00" value="Arrive : 00.00 - 06.00"> 00.00 - 06.00<br>
-          <input type="checkbox" name="arrive06.00-12.00" value="Arrive : 06.00 - 12.00"> 06.00 - 12.00<br>
-          <input type="checkbox" name="arrive12.00-18.00" value="Arrive : 12.00 - 18.00"> 12.00 - 18.00<br>
-          <input type="checkbox" name="arrive18.00-00.00" value="Arrive : 18.00 - 00.00"> 18.00 - 00.00<br>
+          <input type="checkbox" id="filterArrive0" class="filter" value="Arrive : 00.00 - 06.00"> 00.00 - 06.00<br>
+          <input type="checkbox" id="filterArrive1" class="filter" value="Arrive : 06.00 - 12.00"> 06.00 - 12.00<br>
+          <input type="checkbox" id="filterArrive2" class="filter" value="Arrive : 12.00 - 18.00"> 12.00 - 18.00<br>
+          <input type="checkbox" id="filterArrive3" class="filter" value="Arrive : 18.00 - 00.00"> 18.00 - 00.00<br>
         </div>
       </div>
     </div>
-    <div class="col-md-12" id="filterDuration" >
+    <div class="col-md-12">
       <p>Duration</p>
       <div class="col-md-4">
-        <div id="sliderDuration"></div>
+        <div id="filterDuration" class="filterSlider"></div>
       </div>
     </div>
-    <div class="col-md-12" id="filterPricePerPerson" >
-
+    <div class="col-md-12">
+      <p>Price Per Person</p>
+      <div class="col-md-4">
+        <div id="filterPricePerPerson" class="filterSlider"></div>
+      </div>
     </div>
     <div class="col-md-12" id="filter" >
       <div class="row">
         <p>Filters : </p>
+        <input type="text" class="form-control" id="filterTags">
       </div>
     </div>
     <div class="col-md-12">
@@ -109,30 +119,43 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript" src="helper.js"></script>
+  <script type="text/javascript" src="tagsinput.js"></script>
 </body>
 </html>
 <script type="text/javascript">
+  var awal, tujuan, banyakHari, banyakPenumpang;
+
   $(document).ready(function() {
 
-    $( "#sliderDuration" ).slider({
+    $( "#filterDuration" ).slider({
       range: true,
       min: 0,
       max: 6
     });
+    $("#filterDuration").slider('values',0,0); // sets first handle (index 0) to 50
+    $("#filterDuration").slider('values',1,6); // sets second handle (index 1) to 80
 
     var dataPenerbangan = JSON.parse(localStorage['dataPenerbangan']);
     console.log(dataPenerbangan);
 
-    $("#awal").text(JSON.parse(localStorage['from']));
-    $("#tujuan").text(JSON.parse(localStorage['to']));
-    $("#hari").text(JSON.parse(localStorage['dateFlight']));
-    $("#banyakPenumpang").text(JSON.parse(localStorage['banyakOrang']) + " people");
+    awal = JSON.parse(localStorage['from']);
+    tujuan = JSON.parse(localStorage['to']);
+    banyakHari = JSON.parse(localStorage['dateFlight']);
+    banyakPenumpang = JSON.parse(localStorage['banyakOrang']);
+
+    $("#awal").text(awal);
+    $("#tujuan").text(tujuan);
+    $("#banyakHari").text(banyakHari);
+    $("#banyakPenumpang").text(banyakPenumpang + " people");
 
     var temp = "";
+
+    var hargaTermurah = 1000000000, hargaTermahal = -1000000000;
 
     for (var i = 0; i < dataPenerbangan.length; i++) {
       var namaMaskapai = dataPenerbangan[i]["Nama_Maskapai"];
@@ -140,6 +163,9 @@
       var jamTiba = dataPenerbangan[i]["Jam_Tiba"]["date"];
       var lamaPenerbangan = dataPenerbangan[i]["Lama_Penerbangan"];
       var hargaPerOrang = dataPenerbangan[i]["Harga_Per_Orang"];
+
+      hargaTermurah = Math.min(hargaTermurah, hargaPerOrang);
+      hargaTermahal = Math.max(hargaTermahal, hargaPerOrang);
 
       var gambarPesawat;
 
@@ -164,7 +190,112 @@
       // console.log(temp);
     }
 
+    if (hargaTermahal == -1000000000) {
+      $( "#filterPricePerPerson" ).slider({
+        range: true,
+        min: 0,
+        max: 0
+      });
+          $("#filterPricePerPerson").slider('values',0,0); // sets first handle (index 0) to 50
+          $("#filterPricePerPerson").slider('values',1,0); // sets second handle (index 1) to 80
+    }
+    else {
+      $( "#filterPricePerPerson" ).slider({
+        range: true,
+        min: hargaTermurah,
+        max: hargaTermahal
+      });
+          $("#filterPricePerPerson").slider('values',0,hargaTermurah); // sets first handle (index 0) to 50
+          $("#filterPricePerPerson").slider('values',1,hargaTermahal); // sets second handle (index 1) to 80
+    }
+
     $("#tabelPenerbangan tbody").append(temp);
+
+    $('#filterTags').tagsinput({
+      allowDuplicates: true,
+        itemValue: 'id',  // this will be used to set id of tag
+        itemText: 'label' // this will be used to set text of tag
+      });
+
+
+    $("#filterTags").on('itemRemoved', function(event) {
+      console.log(event);
+      if (event.item != undefined) {
+        if (event.item.id == "filterDuration") {
+          // console.log("hehe");
+          $("#filterDuration").slider('values',0,0); // sets first handle (index 0) to 50
+          $("#filterDuration").slider('values',1,6); // sets second handle (index 1) to 80
+        }
+        else if (event.item.id == "filterPricePerPerson") {
+          // $("#filterPricePerPerson").slider('values',0,0);
+          $("#filterPricePerPerson").slider('values',0,hargaTermurah); // sets first handle (index 0) to 50
+          $("#filterPricePerPerson").slider('values',1,hargaTermahal); // sets second handle (index 1) to 80
+        }
+        else {
+          $("#" + event.item.id).attr('checked', false);
+        }
+      }
+    });
+
+    var filter = document.getElementsByClassName("filter")
+
+    for (var i = 0; i < filter.length; i++) {
+      filter[i].addEventListener('change', function() {
+        if (this.checked) {
+          $('#filterTags').tagsinput('add', { "id": this.id , "label": this.value});
+        }
+        else {
+          $('#filterTags').tagsinput('remove', { "id": this.id });
+        }
+      });
+    }
+
+    $(".filterSlider").on( "slide", function( event, ui ) {
+      console.log(event.target.id);
+      console.log(ui.values);
+
+      if (event.target.id == "filterDuration") {
+        // $('#filterTags').tagsinput('remove', { "id": event.target.id });
+        if (ui.values[0] == 0 && ui.values[1] == 6) {
+        }
+        else {
+          var item = $('#filterTags').tagsinput('items');
+          var indeks = -1;
+          for (var i = 0; i < item.length; i++) {
+            if (item[i].id == event.target.id) {
+              indeks = i;
+              break;
+            }
+          }
+          if (indeks == -1) $('#filterTags').tagsinput('add', { "id": event.target.id , "label": "Duration : " + ui.values[0] + "h - " + ui.values[1] + "h"});
+          else {
+            item[i].label = "Duration : " + ui.values[0] + "h - " + ui.values[1] + "h";
+          }
+          console.log(item);
+        }
+      }
+      else {
+        // $('#filterTags').tagsinput('remove', { "id": event.target.id });
+        if (ui.values[0] == hargaTermurah && ui.values[1] == hargaTermahal) {
+        }
+        else {
+          var item = $('#filterTags').tagsinput('items');
+          var indeks = -1;
+          for (var i = 0; i < item.length; i++) {
+            if (item[i].id == event.target.id) {
+              indeks = i;
+              break;
+            }
+          }
+          if (indeks == -1) $('#filterTags').tagsinput('add', { "id": event.target.id , "label": "Price Per Person : " + formatKeRupiah(ui.values[0]) + " - " + formatKeRupiah(ui.values[1])});
+          else {
+            item[i].label = "Price Per Person : " + formatKeRupiah(ui.values[0]) + " - " + formatKeRupiah(ui.values[1]);
+          }
+          
+        }
+      }
+      $('#filterTags').tagsinput('refresh');
+    } );
 
   });
 </script>

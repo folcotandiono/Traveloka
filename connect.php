@@ -1,5 +1,5 @@
 <?php
-$serverName = "DESKTOP-KH163C2"; //serverName\instanceName
+$serverName = "DESKTOP-IDF1OCS"; //serverName\instanceName
 
 // Since UID and PWD are not specified in the $connectionInfo array,
 // The connection will be attempted using Windows Authentication.
