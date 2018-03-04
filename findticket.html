@@ -39,7 +39,7 @@
         <p id="tujuan">haha</p>
       </div>
       <div class="row align-items-center">
-        <p id="banyakHari">haha</p>
+        <p id="tanggalPenerbangan">haha</p>
         <p style="margin-left:10px; margin-right:10px">|</p>
         <p id="banyakPenumpang">haha</p>
       </div>
@@ -128,34 +128,12 @@
 </body>
 </html>
 <script type="text/javascript">
-  var awal, tujuan, banyakHari, banyakPenumpang;
+  var awal, tujuan, banyakHari, banyakPenumpang, tanggalPenerbangan;
 
-  $(document).ready(function() {
+  var hargaTermurah = 1000000000, hargaTermahal = -1000000000;
 
-    $( "#filterDuration" ).slider({
-      range: true,
-      min: 0,
-      max: 6
-    });
-    $("#filterDuration").slider('values',0,0); // sets first handle (index 0) to 50
-    $("#filterDuration").slider('values',1,6); // sets second handle (index 1) to 80
-
-    var dataPenerbangan = JSON.parse(localStorage['dataPenerbangan']);
-    console.log(dataPenerbangan);
-
-    awal = JSON.parse(localStorage['from']);
-    tujuan = JSON.parse(localStorage['to']);
-    banyakHari = JSON.parse(localStorage['dateFlight']);
-    banyakPenumpang = JSON.parse(localStorage['banyakOrang']);
-
-    $("#awal").text(awal);
-    $("#tujuan").text(tujuan);
-    $("#banyakHari").text(banyakHari);
-    $("#banyakPenumpang").text(banyakPenumpang + " people");
-
-    var temp = "";
-
-    var hargaTermurah = 1000000000, hargaTermahal = -1000000000;
+  function cekHargaTermurahDanTermahal(dataPenerbangan) {
+    hargaTermurah = 1000000000, hargaTermahal = -1000000000;
 
     for (var i = 0; i < dataPenerbangan.length; i++) {
       var namaMaskapai = dataPenerbangan[i]["Nama_Maskapai"];
@@ -166,6 +144,21 @@
 
       hargaTermurah = Math.min(hargaTermurah, hargaPerOrang);
       hargaTermahal = Math.max(hargaTermahal, hargaPerOrang);
+    }
+  }
+
+  function tampilkan(dataPenerbangan) {
+
+    $("#tabelPenerbangan tbody").empty();
+
+    var temp = "";
+
+    for (var i = 0; i < dataPenerbangan.length; i++) {
+      var namaMaskapai = dataPenerbangan[i]["Nama_Maskapai"];
+      var jamBerangkat = dataPenerbangan[i]["Jam_Berangkat"]["date"];
+      var jamTiba = dataPenerbangan[i]["Jam_Tiba"]["date"];
+      var lamaPenerbangan = dataPenerbangan[i]["Lama_Penerbangan"];
+      var hargaPerOrang = dataPenerbangan[i]["Harga_Per_Orang"];
 
       var gambarPesawat;
 
@@ -177,7 +170,26 @@
 
       var buttonChoose = "<button type='button' class='btn btn-warning'>Choose</button>";
       document.addEventListener("click", function() {
+        // $.ajax({
+        //   type: "POST",
+        //   url: "findticket.php",
+        //   data: {
+        //     awal: awal,
+        //     tujuan: tujuan,
+        //     banyakHari: banyakHari,
+        //     banyakPenumpang: banyakPenumpang,
+        //     namaMaskapai: namaMaskapai,
+        //     jamBerangkat: jamBerangkat,
+        //     jamTiba: jamTiba,
+        //     lamaPenerbangan: lamaPenerbangan,
+        //     hargaPerOrang: hargaPerOrang
+        //   },
+        //   dataType: 'json',
+        //   async: false,
+        //   success: function(result){
 
+        //   }
+        // });
       });
 
       temp += "<tr><td>" + 
@@ -190,38 +202,123 @@
       // console.log(temp);
     }
 
-    if (hargaTermahal == -1000000000) {
-      $( "#filterPricePerPerson" ).slider({
-        range: true,
-        min: 0,
-        max: 0
-      });
-          $("#filterPricePerPerson").slider('values',0,0); // sets first handle (index 0) to 50
-          $("#filterPricePerPerson").slider('values',1,0); // sets second handle (index 1) to 80
-    }
-    else {
-      $( "#filterPricePerPerson" ).slider({
-        range: true,
-        min: hargaTermurah,
-        max: hargaTermahal
-      });
-          $("#filterPricePerPerson").slider('values',0,hargaTermurah); // sets first handle (index 0) to 50
-          $("#filterPricePerPerson").slider('values',1,hargaTermahal); // sets second handle (index 1) to 80
-    }
+  // console.log(temp);
 
-    $("#tabelPenerbangan tbody").append(temp);
+  $("#tabelPenerbangan tbody").append(temp);
+}
 
-    $('#filterTags').tagsinput({
-      allowDuplicates: true,
+function filterDataPenerbangan() {
+    var airline = [];
+
+    if (document.getElementById("filterAirlineGaruda").checked) airline.push("Garuda Indonesia");
+    if (document.getElementById("filterAirlineCitilink").checked) airline.push("Citilink");
+    if (document.getElementById("filterAirlineAirAsia").checked) airline.push("Air Asia");
+    if (document.getElementById("filterAirlineAdamAir").checked) airline.push("Adam Air");
+    if (document.getElementById("filterAirlineLionAir").checked) airline.push("Lion Air");
+
+    var depart = [];
+
+    if (document.getElementById("filterDepart0").checked) depart.push(new Array("00:00", "06:00"));
+    if (document.getElementById("filterDepart1").checked) depart.push(new Array("06:00", "12:00"));
+    if (document.getElementById("filterDepart2").checked) depart.push(new Array("12:00", "18:00"));
+    if (document.getElementById("filterDepart3").checked) depart.push(new Array("18:00", "23:59"));
+
+    var arrive = [];
+
+    if (document.getElementById("filterArrive0").checked) arrive.push(new Array("00:00", "06:00"));
+    if (document.getElementById("filterArrive1").checked) arrive.push(new Array("06:00", "12:00"));
+    if (document.getElementById("filterArrive2").checked) arrive.push(new Array("12:00", "18:00"));
+    if (document.getElementById("filterArrive3").checked) arrive.push(new Array("18:00", "23:59"));
+
+    var duration =  $('#filterDuration').slider("option", "values");
+
+    var pricePerPerson =  $('#filterPricePerPerson').slider("option", "values");
+
+    // console.log(duration);
+
+    $.ajax({
+      type: "POST",
+      url: "filter.php",
+      data: {
+        awal: awal,
+        tujuan: tujuan,
+        tanggalPenerbangan: tanggalPenerbangan,
+        banyakPenumpang: banyakPenumpang,
+        airline: JSON.stringify(airline),
+        depart: JSON.stringify(depart),
+        arrive: JSON.stringify(arrive),
+        duration: JSON.stringify(duration),
+        pricePerPerson: JSON.stringify(pricePerPerson)
+      },
+      dataType: 'json',
+      success: function(result){
+        console.log(result);
+        tampilkan(result);
+      },
+      error: function(result) {
+        console.log(result);
+      }
+    });
+}
+
+$(document).ready(function() {
+
+  var dataPenerbangan = JSON.parse(localStorage['dataPenerbangan']);
+  console.log(dataPenerbangan);
+
+  awal = JSON.parse(localStorage['from']);
+  tujuan = JSON.parse(localStorage['to']);
+  tanggalPenerbangan = JSON.parse(localStorage['dateFlight']);
+  banyakPenumpang = JSON.parse(localStorage['banyakOrang']);
+
+  $("#awal").text(awal);
+  $("#tujuan").text(tujuan);
+  $("#tanggalPenerbangan").text(banyakHari);
+  $("#banyakPenumpang").text(banyakPenumpang + " people");
+
+  tampilkan(dataPenerbangan);
+  cekHargaTermurahDanTermahal(dataPenerbangan);
+
+  $( "#filterDuration" ).slider({
+    range: true,
+    min: 0,
+    max: 6
+  });
+
+  if (hargaTermahal == -1000000000) {
+    $( "#filterPricePerPerson" ).slider({
+      range: true,
+      min: 0,
+      max: 0
+    });
+  }
+  else {
+    $( "#filterPricePerPerson" ).slider({
+      range: true,
+      min: hargaTermurah,
+      max: hargaTermahal
+    });
+  }
+
+    $("#filterPricePerPerson").slider('values',0,hargaTermurah); // sets first handle (index 0) to 50
+    $("#filterPricePerPerson").slider('values',1,hargaTermahal); // sets second handle (index 1) to 80
+    $("#filterDuration").slider('values',0,0); // sets first handle (index 0) to 50
+    $("#filterDuration").slider('values',1,6); // sets second handle (index 1) to 80
+
+  $('#filterTags').tagsinput({
+    allowDuplicates: true,
         itemValue: 'id',  // this will be used to set id of tag
         itemText: 'label' // this will be used to set text of tag
       });
 
+  $("#filterTags").on('itemAdded', function(event) {
+    filterDataPenerbangan();
+  });
 
-    $("#filterTags").on('itemRemoved', function(event) {
-      console.log(event);
-      if (event.item != undefined) {
-        if (event.item.id == "filterDuration") {
+  $("#filterTags").on('itemRemoved', function(event) {
+    console.log(event);
+    if (event.item != undefined) {
+      if (event.item.id == "filterDuration") {
           // console.log("hehe");
           $("#filterDuration").slider('values',0,0); // sets first handle (index 0) to 50
           $("#filterDuration").slider('values',1,6); // sets second handle (index 1) to 80
@@ -235,28 +332,29 @@
           $("#" + event.item.id).attr('checked', false);
         }
       }
+      filterDataPenerbangan();
     });
 
-    var filter = document.getElementsByClassName("filter")
+  var filter = document.getElementsByClassName("filter")
 
-    for (var i = 0; i < filter.length; i++) {
-      filter[i].addEventListener('change', function() {
-        if (this.checked) {
-          $('#filterTags').tagsinput('add', { "id": this.id , "label": this.value});
-        }
-        else {
-          $('#filterTags').tagsinput('remove', { "id": this.id });
-        }
-      });
-    }
+  for (var i = 0; i < filter.length; i++) {
+    filter[i].addEventListener('change', function() {
+      if (this.checked) {
+        $('#filterTags').tagsinput('add', { "id": this.id , "label": this.value});
+      }
+      else {
+        $('#filterTags').tagsinput('remove', { "id": this.id });
+      }
+    });
+  }
 
-    $(".filterSlider").on( "slide", function( event, ui ) {
-      console.log(event.target.id);
-      console.log(ui.values);
+  $(".filterSlider").on( "slidestop", function( event, ui ) {
+    console.log(event.target.id);
+    console.log(ui.values);
 
-      if (event.target.id == "filterDuration") {
-        // $('#filterTags').tagsinput('remove', { "id": event.target.id });
+    if (event.target.id == "filterDuration") {
         if (ui.values[0] == 0 && ui.values[1] == 6) {
+          $('#filterTags').tagsinput('remove', { "id": event.target.id });
         }
         else {
           var item = $('#filterTags').tagsinput('items');
@@ -275,8 +373,8 @@
         }
       }
       else {
-        // $('#filterTags').tagsinput('remove', { "id": event.target.id });
         if (ui.values[0] == hargaTermurah && ui.values[1] == hargaTermahal) {
+        $('#filterTags').tagsinput('remove', { "id": event.target.id });
         }
         else {
           var item = $('#filterTags').tagsinput('items');
@@ -295,7 +393,8 @@
         }
       }
       $('#filterTags').tagsinput('refresh');
+      filterDataPenerbangan();
     } );
 
-  });
+});
 </script>
